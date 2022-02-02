@@ -45,7 +45,7 @@ public class ExampleMod
         eventBus.addListener(this::enqueueIMC);
         // Register the processIMC method for modloading
         eventBus.addListener(this::processIMC);
-        MinecraftForge.EVENT_BUS.register(MyCapability.class);
+        MinecraftForge.EVENT_BUS.register(new MyCapability());
         MinecraftForge.EVENT_BUS.register(MyCapabilityAttacher.class);
           // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);

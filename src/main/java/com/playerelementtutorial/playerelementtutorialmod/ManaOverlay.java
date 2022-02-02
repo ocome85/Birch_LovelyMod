@@ -75,11 +75,8 @@ public class  ManaOverlay extends Gui implements IIngameOverlay
         boolean unused = false;
 
         LazyOptional<MyCapabilityInterface> stats1 = minecraft.player.getCapability(MyCapability.INSTANCE);
-        
-       // ManaData stats = MyCapabilityImplementation.getManaData();
-        FoodData statsas = minecraft.player.getFoodData();
-        ManaData statsa1s = MyCapabilityImplementation.getManaData();
-        int level =statsas.getFoodLevel();
+        ManaData statsas =new MyCapabilityImplementation().getManaData();
+        int level =statsas.getManaLevel();
 
         for (int i = 0; i < 10; ++i)
         {

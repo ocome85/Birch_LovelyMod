@@ -66,8 +66,7 @@ public class ManaData implements ManaInterface {
     public int getManaLevel() {
         return this.manaLevel;
     }
-
-    public int getLastManaLevel() {
+     public int getLastManaLevel() {
         return this.lastManaLevel;
     }
     public boolean needsMana() {

@@ -16,5 +16,6 @@ public class MyCapability {
     }
 
     public MyCapability() {
+        new MyCapabilityImplementation().tick();
     }
 }
