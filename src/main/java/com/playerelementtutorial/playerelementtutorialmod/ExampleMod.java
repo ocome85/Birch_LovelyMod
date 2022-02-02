@@ -1,5 +1,6 @@
 package com.playerelementtutorial.playerelementtutorialmod;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -46,7 +47,7 @@ public class ExampleMod
         // Register the processIMC method for modloading
         eventBus.addListener(this::processIMC);
         MinecraftForge.EVENT_BUS.register(new MyCapability());
-        MinecraftForge.EVENT_BUS.register(MyCapabilityAttacher.class);
+        MinecraftForge.EVENT_BUS.register(new MyCapabilityAttacher());
           // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }

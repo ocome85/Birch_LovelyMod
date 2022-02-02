@@ -11,11 +11,11 @@ import net.minecraft.world.level.GameRules;
 
 
 public class ManaData implements ManaInterface {
-    public  int manaLevel = 20;
+    public  int manaLevel = 10;
     private float saturationLevel;
     private float exhaustionLevel;
     private int tickTimer;
-    private int lastManaLevel = 20;
+    private int lastManaLevel = 10;
 
     public ManaData() {
         this.saturationLevel = 5.0F;
@@ -37,7 +37,7 @@ public class ManaData implements ManaInterface {
 
     }
 
-    public void tick(MyCapabilityImplementation p_38711_) {
+    public void tick(Player p_38711_) {
         Difficulty difficulty = p_38711_.level.getDifficulty();
         this.lastManaLevel = this.manaLevel;
         if (this.exhaustionLevel > 4.0F) {

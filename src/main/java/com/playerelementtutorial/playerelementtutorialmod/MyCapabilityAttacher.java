@@ -30,6 +30,7 @@ public class MyCapabilityAttacher {
 
 
         private final MyCapabilityInterface backend = new MyCapabilityImplementation() ;
+
         private final LazyOptional<MyCapabilityInterface> optionalData = LazyOptional.of(() -> backend);
 
 
@@ -58,10 +59,13 @@ public class MyCapabilityAttacher {
     @SubscribeEvent
     public void  onAttachingCapabilitiesEntity(final AttachCapabilitiesEvent<Entity> event) {
         final MyCapabilityProviderEntity provider = new MyCapabilityProviderEntity();
-        Player eventObject = (Player) event.getObject();
+
        boolean iof =  event.getObject()  instanceof Player;
        if (iof ==true) {
+           @NotNull
+           Player eventObject = (Player) event.getObject();
            event.addCapability(MyCapabilityProviderEntity.IDENTIFIER, provider);
+           new MyCapabilityImplementation().tick(eventObject);
        }
     }
 
