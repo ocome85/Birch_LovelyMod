@@ -8,7 +8,8 @@ import net.minecraftforge.common.util.INBTSerializable;
 public interface MyCapabilityInterface extends INBTSerializable<CompoundTag> {
 
 
-    void tick(Player player);
+    MyCapabilityInterface tick(Player player);
+    void aiStep();
 
     String getValue();
     public ManaData getManaData();
