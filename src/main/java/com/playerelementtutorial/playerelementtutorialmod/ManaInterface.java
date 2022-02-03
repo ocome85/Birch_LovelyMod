@@ -6,4 +6,5 @@ import net.minecraftforge.common.util.INBTSerializable;
 public interface ManaInterface extends INBTSerializable<CompoundTag> {
     String getValue();
     int getManaLevel();
+
 }

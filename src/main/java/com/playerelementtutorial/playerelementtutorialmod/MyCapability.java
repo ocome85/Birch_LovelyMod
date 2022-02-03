@@ -15,6 +15,5 @@ public class MyCapability {
     }
 
     public MyCapability() {
-        new ManaData().getManaLevel();
     }
 }

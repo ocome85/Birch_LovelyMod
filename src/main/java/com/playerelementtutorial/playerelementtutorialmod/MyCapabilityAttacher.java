@@ -1,10 +1,13 @@
 package com.playerelementtutorial.playerelementtutorialmod;
 
+import com.mojang.authlib.GameProfile;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -20,9 +23,15 @@ public class MyCapabilityAttacher {
 
 
     public class MyCapabilityProviderEntity implements ICapabilityProvider, INBTSerializable<CompoundTag> {
+
         public static final ResourceLocation IDENTIFIER = new ResourceLocation(ExampleMod.MOD_ID, "tutorial");
         private final MyCapabilityInterface backend = new MyCapabilityImplementation() ;
         private final LazyOptional<MyCapabilityInterface> optionalData = LazyOptional.of(() -> backend);
+
+        public MyCapabilityProviderEntity(Player eventObject) {
+           new MyCapabilityImplementation(eventObject) ;
+        }
+
 
         @NotNull
         @Override
@@ -47,13 +56,14 @@ public class MyCapabilityAttacher {
 
     @SubscribeEvent
     public void  onAttachingCapabilitiesEntity(final AttachCapabilitiesEvent<Entity> event) {
-        final MyCapabilityProviderEntity provider = new MyCapabilityProviderEntity();
-
-       boolean iof =  event.getObject()  instanceof Player;
-       if (iof ==true) {
-           Player eventObject = (Player) event.getObject();
-           event.addCapability(MyCapabilityProviderEntity.IDENTIFIER, provider);
-           new MyCapabilityImplementation().tick(eventObject);
+        boolean iof =  event.getObject()  instanceof Player;
+        if (iof ==true) {
+            Player eventObject = (Player) event.getObject();
+            Level level =eventObject.level;
+            BlockPos blockPos =eventObject.blockPosition();
+            GameProfile gameProfile =eventObject.getGameProfile();
+            final MyCapabilityProviderEntity provider = new MyCapabilityProviderEntity(eventObject);
+            event.addCapability(MyCapabilityProviderEntity.IDENTIFIER, provider);
        }
     }
 

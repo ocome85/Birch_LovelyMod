@@ -11,7 +11,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.food.FoodData;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.client.gui.IIngameOverlay;
@@ -35,6 +34,7 @@ public class  ManaOverlay extends Gui implements IIngameOverlay
     private RenderGameOverlayEvent eventParent;
     public  final ResourceLocation GUI_MANA_LOCATION = new ResourceLocation(ExampleMod.MOD_ID, "textures/gui/icons.png");
     public static final ManaOverlay INSTANCE = new ManaOverlay(Minecraft.getInstance());
+
 
     public  ManaOverlay(Minecraft p_93005_) {
         super(p_93005_);
@@ -75,8 +75,9 @@ public class  ManaOverlay extends Gui implements IIngameOverlay
         boolean unused = false;
 
         LazyOptional<MyCapabilityInterface> stats1 = minecraft.player.getCapability(MyCapability.INSTANCE);
-        ManaData statsas =new MyCapabilityImplementation().getManaData();
-        int level =statsas.getManaLevel();
+        MyCapabilityInterface myCapabilityInterface=stats1.orElseThrow(IllegalStateException::new);
+        ManaData manaData= myCapabilityInterface.getManaData();
+        int level =manaData.getManaLevel();
 
         for (int i = 0; i < 10; ++i)
         {
@@ -86,18 +87,19 @@ public class  ManaOverlay extends Gui implements IIngameOverlay
             int icon = 16;
             byte background = 0;
 
+            /*
             if (minecraft.player.hasEffect(MobEffects.HUNGER))
             {
                 icon += 36;
                 background = 13;
             }
-            if (unused) background = 1; //Probably should be a += 1 but vanilla never uses this
-/*
+
+             */
+            if (unused) background = 1;
             if (player.getFoodData().getSaturationLevel() <= 0.0F && tickCount % (level * 3 + 1) == 0)
             {
-                //y = top + (random.nextInt(3) - 1);
+               // y = top + (random.nextInt(3) - 1);
             }
-*/
             blit(mStack, x, y, 16 + background * 9, 27, 9, 9);
 
             if (idx < level)
@@ -154,9 +156,7 @@ public class  ManaOverlay extends Gui implements IIngameOverlay
 
     @Override
     public void render(ForgeIngameGui gui, PoseStack mStack, float partialTicks, int width, int height) {
-
-
-
+        /*
         this.screenWidth = this.minecraft.getWindow().getGuiScaledWidth();
         this.screenHeight = this.minecraft.getWindow().getGuiScaledHeight();
         eventParent = new RenderGameOverlayEvent(mStack, partialTicks, this.minecraft.getWindow());
@@ -173,7 +173,7 @@ public class  ManaOverlay extends Gui implements IIngameOverlay
                 if (!entry.isEnabled()) return;
                 IIngameOverlay overlay = entry.getOverlay();
                 if (pre(overlay, mStack)) return;
-                //overlay.render(this, pStack, partialTicks, screenWidth, screenHeight);
+               //overlay.render(this, mStack, partialTicks, screenWidth, screenHeight);
                 post(overlay, mStack);
             }
             catch(Exception e)
@@ -185,7 +185,9 @@ public class  ManaOverlay extends Gui implements IIngameOverlay
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
         post(ALL, mStack);
+        */
     }
+
 
 
     private boolean pre(RenderGameOverlayEvent.ElementType type, PoseStack mStack)

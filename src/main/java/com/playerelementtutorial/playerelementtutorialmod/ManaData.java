@@ -4,12 +4,11 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.food.FoodData;
 import net.minecraft.world.level.GameRules;
 
 
-public class ManaData {
+public class ManaData extends FoodData {
     private int manaLevel = 20;
     private float saturationLevel;
     private float exhaustionLevel;
