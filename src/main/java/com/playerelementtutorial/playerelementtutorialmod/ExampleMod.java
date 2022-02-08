@@ -2,14 +2,17 @@ package com.playerelementtutorial.playerelementtutorialmod;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -21,6 +24,7 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.items.CapabilityItemHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,18 +42,18 @@ public class ExampleMod
     public ExampleMod() {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ManaOverlay.init();
-
-
+        eventBus.addListener(this::registerCapabilities);
         // Register the setup method for modloading
         eventBus.addListener(this::setup);
-                // Register the enqueueIMC method for modloading
-        eventBus.addListener(this::enqueueIMC);
-        // Register the processIMC method for modloading
         eventBus.addListener(this::processIMC);
-        MinecraftForge.EVENT_BUS.register(new MyCapability());
-        MinecraftForge.EVENT_BUS.register(new MyCapabilityAttacher());
           // Register ourselves for server and other game events we are interested in
+        MinecraftForge.EVENT_BUS.register(new MyCapabilityAttacher());
         MinecraftForge.EVENT_BUS.register(this);
+    }
+
+    public void registerCapabilities(RegisterCapabilitiesEvent event)
+    {
+        MyCapability.register(event);
     }
 
     private void setup(final FMLCommonSetupEvent event)

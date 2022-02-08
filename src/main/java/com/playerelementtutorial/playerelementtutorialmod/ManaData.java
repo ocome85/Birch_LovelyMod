@@ -9,73 +9,24 @@ import net.minecraft.world.level.GameRules;
 
 
 public class ManaData extends FoodData {
-    private int manaLevel = 20;
+    private int manaLevel = 0;
+    private int maxmanaLevel = 100;
+
     private float saturationLevel;
     private float exhaustionLevel;
     private int tickTimer;
-    private int lastManaLevel = 20;
+    private int lastManaLevel = 0;
 
     public ManaData() {
         this.saturationLevel = 5.0F;
     }
-
+@Override
     public void eat(int p_38708_, float p_38709_) {
-        this.manaLevel = Math.min(p_38708_ + this.manaLevel, 20);
+        this.manaLevel = Math.min(p_38708_ + this.manaLevel, 100);
         this.saturationLevel = Math.min(this.saturationLevel + (float)p_38708_ * p_38709_ * 2.0F, (float)this.manaLevel);
     }
 
-    /*
-    public void eat(Item p_38713_, ItemStack p_38714_) {
-        if (p_38713_.isEdible()) {
-            ManaProperties manaproperties = p_38713_.getManaProperties();
-            this.eat(manaproperties.getNutrition(), manaproperties.getSaturationModifier());
-        }
-
-    }
-*/
-    public void tick(Player p_38711_) {
-        Difficulty difficulty = p_38711_.level.getDifficulty();
-        this.lastManaLevel = this.manaLevel;
-        if (this.exhaustionLevel > 4.0F) {
-            this.exhaustionLevel -= 4.0F;
-            if (this.saturationLevel > 0.0F) {
-                this.saturationLevel = Math.max(this.saturationLevel - 1.0F, 0.0F);
-            } else if (difficulty != Difficulty.PEACEFUL) {
-                this.manaLevel = Math.max(this.manaLevel - 1, 0);
-            }
-        }
-
-        boolean flag = p_38711_.level.getGameRules().getBoolean(GameRules.RULE_NATURAL_REGENERATION);
-        if (flag && this.saturationLevel > 0.0F && p_38711_.isHurt() && this.manaLevel >= 20) {
-            ++this.tickTimer;
-            if (this.tickTimer >= 10) {
-                float f = Math.min(this.saturationLevel, 6.0F);
-                p_38711_.heal(f / 6.0F);
-                this.addExhaustion(f);
-                this.tickTimer = 0;
-            }
-        } else if (flag && this.manaLevel >= 18 && p_38711_.isHurt()) {
-            ++this.tickTimer;
-            if (this.tickTimer >= 80) {
-                p_38711_.heal(1.0F);
-                this.addExhaustion(6.0F);
-                this.tickTimer = 0;
-            }
-        } else if (this.manaLevel <= 0) {
-            ++this.tickTimer;
-            if (this.tickTimer >= 80) {
-                if (p_38711_.getHealth() > 10.0F || difficulty == Difficulty.HARD || p_38711_.getHealth() > 1.0F && difficulty == Difficulty.NORMAL) {
-                    p_38711_.hurt(DamageSource.STARVE, 1.0F);
-                }
-
-                this.tickTimer = 0;
-            }
-        } else {
-            this.tickTimer = 0;
-        }
-
-    }
-
+@Override
     public void readAdditionalSaveData(CompoundTag p_38716_) {
         if (p_38716_.contains("manaLevel", 99)) {
             this.manaLevel = p_38716_.getInt("manaLevel");
@@ -86,6 +37,34 @@ public class ManaData extends FoodData {
 
     }
 
+    @Override
+    public void tick(Player p_38711_) {
+        Difficulty difficulty = p_38711_.level.getDifficulty();
+        this.lastManaLevel = this.manaLevel;
+        /*
+        if (this.exhaustionLevel > 4.0F) {
+            this.exhaustionLevel -= 4.0F;
+            if (this.saturationLevel > 0.0F) {
+                this.saturationLevel = Math.max(this.saturationLevel + 1.0F, 0.0F);
+            } else if (difficulty != Difficulty.PEACEFUL) {
+                this.manaLevel = Math.max(this.manaLevel + 1, 0);
+            }
+        }
+        */
+        boolean flag = p_38711_.level.getGameRules().getBoolean(GameRules.RULE_NATURAL_REGENERATION);
+        if (flag && this.saturationLevel > 0.0F && this.manaLevel >= 0) {
+            ++this.tickTimer;
+            if (this.tickTimer >= 100) {
+                if (this.manaLevel < maxmanaLevel)
+                this.manaLevel +=1;
+          /*      float f = Math.min(this.saturationLevel, 6.0F);
+                p_38711_.heal(f / 6.0F);
+                this.addExhaustion(f);*/
+                this.tickTimer = 0;
+            }
+        }
+    }
+    
     public void addAdditionalSaveData(CompoundTag p_38720_) {
         p_38720_.putInt("manaLevel", this.manaLevel);
         p_38720_.putInt("manaTickTimer", this.tickTimer);
@@ -128,4 +107,6 @@ public class ManaData extends FoodData {
     public void setExhaustion(float p_150379_) {
         this.exhaustionLevel = p_150379_;
     }
+
+
 }

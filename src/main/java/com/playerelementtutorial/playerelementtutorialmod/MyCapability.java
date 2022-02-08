@@ -10,10 +10,11 @@ public class MyCapability {
 
     public static final Capability<MyCapabilityInterface> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {});
     @SubscribeEvent
-    public void register(RegisterCapabilitiesEvent event) {
+    public static void register(RegisterCapabilitiesEvent event) {
         event.register(MyCapabilityInterface.class);
     }
 
     public MyCapability() {
     }
+
 }
