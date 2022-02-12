@@ -56,10 +56,7 @@ public class ManaData extends FoodData {
             ++this.tickTimer;
             if (this.tickTimer >= 100) {
                 if (this.manaLevel < maxmanaLevel)
-                this.manaLevel +=1;
-          /*      float f = Math.min(this.saturationLevel, 6.0F);
-                p_38711_.heal(f / 6.0F);
-                this.addExhaustion(f);*/
+                this.manaLevel += maxmanaLevel/20;
                 this.tickTimer = 0;
             }
         }
@@ -75,6 +72,16 @@ public class ManaData extends FoodData {
     public int getManaLevel() {
         return this.manaLevel;
     }
+
+    public  boolean ManaLevelCheck(int manacost) {
+        if (this.manaLevel>=manacost){
+            this.manaLevel=this.manaLevel-manacost;
+            return true;
+        }
+    return false;
+    }
+
+
 
     public int getLastManaLevel() {
         return this.lastManaLevel;

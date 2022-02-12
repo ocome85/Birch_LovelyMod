@@ -1,26 +1,34 @@
 package com.playerelementtutorial.playerelementtutorialmod;
 
+import com.mojang.datafixers.types.templates.Check;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.ListenerList;
+import net.minecraftforge.eventbus.api.Cancelable;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
+import java.util.function.Consumer;
+
 import static com.playerelementtutorial.playerelementtutorialmod.MyCapabilityAttacher.MyCapabilityProviderEntity.*;
 
-
+@Mod.EventBusSubscriber(modid = ExampleMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class MyCapabilityAttacher {
-
 
     public class MyCapabilityProviderEntity implements ICapabilityProvider, INBTSerializable<CompoundTag> {
 
@@ -30,6 +38,10 @@ public class MyCapabilityAttacher {
 
         public MyCapabilityProviderEntity(Player eventObject) {
             new MyCapabilityImplementation(eventObject);
+        }
+
+
+        public MyCapabilityProviderEntity() {
         }
 
         @NotNull
@@ -54,43 +66,14 @@ public class MyCapabilityAttacher {
     }
 
     @SubscribeEvent
-    public void  onAttachingCapabilitiesEntity(final AttachCapabilitiesEvent<Entity> event) {
+    public void  onAttachingCapabilitiesEntity(final AttachCapabilitiesEvent event) {
          boolean iof =  event.getObject()  instanceof Player;
         if (iof ==true) {
             Player eventObject = (Player) event.getObject();
             final MyCapabilityProviderEntity provider = new MyCapabilityProviderEntity(eventObject);
             event.addCapability(IDENTIFIER, provider);
-       }
-    }
-
-    @SubscribeEvent
-    public  void onPlayerPreTick(final TickEvent.PlayerTickEvent  event ,final AttachCapabilitiesEvent<Entity> event1){
-      Player player = event.player;
-      boolean iof = player  instanceof Player;
-        if (iof ==true) {
-            LazyOptional<MyCapabilityInterface> stats1 = player.getCapability(MyCapability.INSTANCE);
-            MyCapabilityInterface myCapabilityInterface = stats1.orElseThrow(IllegalStateException::new);
-            myCapabilityInterface.tick(event.player);
-            final MyCapabilityProviderEntity provider = new MyCapabilityProviderEntity(player);
-            event1.addCapability(IDENTIFIER, provider);
-
-      /*
-        if (iof ==true) {
-            LazyOptional<MyCapabilityInterface> stats1 = player.getCapability(MyCapability.INSTANCE);
-            try {
-                MyCapabilityInterface myCapabilityInterface = stats1.orElseThrow(IllegalStateException::new);
-                myCapabilityInterface.tick(event.player);
-            } catch (IllegalStateException e) {
-                return;
-            }
-
-       */
-           //MyCapabilityInterface myCapabilityInterface = stats1.orElseThrow(IllegalStateException::new);
-           // myCapabilityInterface.tick(event.player);
         }
     }
-
-
     public MyCapabilityAttacher() {
     }
 }

@@ -10,8 +10,6 @@ public interface MyCapabilityInterface extends INBTSerializable<CompoundTag> {
 
     ManaData getManaData();
 
-    void tick(Player player);
-
     String getValue();
 
     void setValue(String Value);

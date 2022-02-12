@@ -3,19 +3,12 @@ package com.playerelementtutorial.playerelementtutorialmod;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 
 public  class MyCapabilityImplementation implements MyCapabilityInterface {
-    protected   ManaData manaData = new ManaData();
+    protected static ManaData manaData = new ManaData();
     private static final String NBT_KEY_DAMAGE_DEALT = "damageDealt";
     Minecraft minecraft = Minecraft.getInstance();
     public final Player player ;
@@ -23,10 +16,9 @@ public  class MyCapabilityImplementation implements MyCapabilityInterface {
     private  String Value = "";
 
 
-    public MyCapabilityImplementation(Player eventObject) {
+    public MyCapabilityImplementation(Player eventObject ) {
         player=eventObject;
         level = eventObject.getLevel();
-
     }
 
     public MyCapabilityImplementation() {
@@ -41,9 +33,9 @@ public  class MyCapabilityImplementation implements MyCapabilityInterface {
         return this.manaData;
     }
 
-    @Override
-    public void tick(Player player) {
-                this.manaData.tick(player);
+
+    public static void tick(Player player) {
+                 MyCapabilityImplementation.manaData.tick(player);
     }
 
     @Override

@@ -3,8 +3,10 @@ package com.playerelementtutorial.playerelementtutorialmod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
@@ -35,6 +37,7 @@ import java.util.stream.Collectors;
 @Mod(ExampleMod.MOD_ID)
 public class ExampleMod
 {
+    public static  final CreativeModeTab MOD_TAB = new CreativeTab("nijisanjiworldmodtab");
     public static final String MOD_ID = "playerelementtutorialmod";
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
@@ -46,9 +49,16 @@ public class ExampleMod
         // Register the setup method for modloading
         eventBus.addListener(this::setup);
         eventBus.addListener(this::processIMC);
+        ModItems.ITEMS.register(eventBus);
           // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(new MyCapabilityAttacher());
+        MinecraftForge.EVENT_BUS.register(EventHandler.class);
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.addListener((TickEvent.PlayerTickEvent event) -> {
+            if (event.phase == TickEvent.Phase.START) {
+                MyCapabilityImplementation.tick(event.player);
+            }
+        });
     }
 
     public void registerCapabilities(RegisterCapabilitiesEvent event)

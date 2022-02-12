@@ -20,10 +20,6 @@ import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nullable;
 
-import static net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType.ALL;
-
-
-@SuppressWarnings("deprecation")
 public class  ManaOverlay extends Gui implements IIngameOverlay
 {
 
@@ -62,7 +58,6 @@ public class  ManaOverlay extends Gui implements IIngameOverlay
 
 
 
-
     public void renderMana(int width, int height, PoseStack mStack)
     {
         minecraft.getProfiler().push("mana");
@@ -71,6 +66,11 @@ public class  ManaOverlay extends Gui implements IIngameOverlay
         RenderSystem.enableBlend();
         int left = width / 2 + 91;
         int top = height - right_height ;
+        //空気が減った場合バーの位置をずらす
+        if (player.getAirSupply()<300) {
+            top -= 10;
+        }
+
 
         boolean unused = false;
 
@@ -87,19 +87,8 @@ public class  ManaOverlay extends Gui implements IIngameOverlay
             int icon = 16;
             byte background = 0;
 
-            /*
-            if (minecraft.player.hasEffect(MobEffects.HUNGER))
-            {
-                icon += 36;
-                background = 13;
-            }
-
-             */
             if (unused) background = 1;
-            if (player.getFoodData().getSaturationLevel() <= 0.0F && tickCount % (level * 3 + 1) == 0)
-            {
-               // y = top + (random.nextInt(3) - 1);
-            }
+
             blit(mStack, x, y, 16 + background * 9, 27, 9, 9);
 
             if (idx < level)
