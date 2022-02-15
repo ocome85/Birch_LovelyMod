@@ -9,6 +9,7 @@ public interface MyCapabilityInterface extends INBTSerializable<CompoundTag> {
 
 
     ManaData getManaData();
+    ModTickmanager getTickData();
 
     String getValue();
 

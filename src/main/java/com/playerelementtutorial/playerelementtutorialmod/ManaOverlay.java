@@ -77,17 +77,18 @@ public class  ManaOverlay extends Gui implements IIngameOverlay
         LazyOptional<MyCapabilityInterface> stats1 = minecraft.player.getCapability(MyCapability.INSTANCE);
         MyCapabilityInterface myCapabilityInterface=stats1.orElseThrow(IllegalStateException::new);
         ManaData manaData= myCapabilityInterface.getManaData();
-        int level =manaData.getManaLevel();
+        int level = manaData.getManaLevel();
+        int maxlevel = manaData.getManaMaxLevel();
+        int checkmax = maxlevel/20;
+
 
         for (int i = 0; i < 10; ++i)
         {
-            int idx = i * 2 + 1;
+            int idx = i * (2*checkmax) + 1;
             int x = left - i * 8 - 9;
             int y = top;
             int icon = 16;
             byte background = 0;
-
-            if (unused) background = 1;
 
             blit(mStack, x, y, 16 + background * 9, 27, 9, 9);
 

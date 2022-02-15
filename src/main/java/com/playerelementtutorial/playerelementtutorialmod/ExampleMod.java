@@ -45,6 +45,7 @@ public class ExampleMod
     public ExampleMod() {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ManaOverlay.init();
+        ModEntities.ENTITY_TYPE.register(eventBus);
         eventBus.addListener(this::registerCapabilities);
         // Register the setup method for modloading
         eventBus.addListener(this::setup);

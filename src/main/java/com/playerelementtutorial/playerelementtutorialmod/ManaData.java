@@ -41,18 +41,8 @@ public class ManaData extends FoodData {
     public void tick(Player p_38711_) {
         Difficulty difficulty = p_38711_.level.getDifficulty();
         this.lastManaLevel = this.manaLevel;
-        /*
-        if (this.exhaustionLevel > 4.0F) {
-            this.exhaustionLevel -= 4.0F;
-            if (this.saturationLevel > 0.0F) {
-                this.saturationLevel = Math.max(this.saturationLevel + 1.0F, 0.0F);
-            } else if (difficulty != Difficulty.PEACEFUL) {
-                this.manaLevel = Math.max(this.manaLevel + 1, 0);
-            }
-        }
-        */
         boolean flag = p_38711_.level.getGameRules().getBoolean(GameRules.RULE_NATURAL_REGENERATION);
-        if (flag && this.saturationLevel > 0.0F && this.manaLevel >= 0) {
+        if (flag && this.saturationLevel > 0.0F ) {
             ++this.tickTimer;
             if (this.tickTimer >= 100) {
                 if (this.manaLevel < maxmanaLevel)
@@ -72,13 +62,23 @@ public class ManaData extends FoodData {
     public int getManaLevel() {
         return this.manaLevel;
     }
+    public int getManaMaxLevel() {
+        return this.maxmanaLevel;
+    }
 
-    public  boolean ManaLevelCheck(int manacost) {
-        if (this.manaLevel>=manacost){
-            this.manaLevel=this.manaLevel-manacost;
+    public  boolean ManaLevelCheck(int manacost , boolean adddivcheck) {
+        //実行できない場合はマナを返します
+        if (adddivcheck==true){
+            this.manaLevel += manacost;
             return true;
         }
-    return false;
+        if (this.manaLevel>=manacost){
+            if (adddivcheck==false){
+                this.manaLevel -= manacost;
+                return true;
+            }
+        }
+        return  false;
     }
 
 

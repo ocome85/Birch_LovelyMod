@@ -9,6 +9,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 
 public  class MyCapabilityImplementation implements MyCapabilityInterface {
     protected static ManaData manaData = new ManaData();
+    protected static ModTickmanager tickmanager = new ModTickmanager();
     private static final String NBT_KEY_DAMAGE_DEALT = "damageDealt";
     Minecraft minecraft = Minecraft.getInstance();
     public final Player player ;
@@ -33,9 +34,14 @@ public  class MyCapabilityImplementation implements MyCapabilityInterface {
         return this.manaData;
     }
 
+    @Override
+    public ModTickmanager getTickData() {
+        return this.tickmanager;
+    }
 
     public static void tick(Player player) {
                  MyCapabilityImplementation.manaData.tick(player);
+                 MyCapabilityImplementation.tickmanager.tick();
     }
 
     @Override
