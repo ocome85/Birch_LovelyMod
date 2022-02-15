@@ -68,12 +68,12 @@ public class Test_Sword2<T extends LivingEntity> extends SwordItem {
                             }
                     }
                 }else{
-                    Component component = new TranslatableComponent("近くに敵はいません!!").withStyle(ChatFormatting.RED);
+                    Component component = new TranslatableComponent("no enemy").withStyle(ChatFormatting.RED);
                     p_41291_.sendMessage(component, Util.NIL_UUID);
                     manaData.ManaLevelCheck(MANA_COST,true);
                 }
             } else {
-                Component component = new TranslatableComponent("マナが足りません!!").withStyle(ChatFormatting.RED);
+                Component component = new TranslatableComponent("no mana").withStyle(ChatFormatting.RED);
                 p_41291_.displayClientMessage(component, true);
             }
         }
