@@ -11,13 +11,13 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, ExampleMod.MOD_ID);
 
-    public static final RegistryObject<Item> TEST_SWORD = ITEMS.register("test_sword",
+    public static final RegistryObject<Item> TEST_SWORD = ITEMS.register( "test_lightning_sword",
             () -> new Test_Sword(Tiers.IRON, 3, -2.4F, (new Item.Properties()).tab(ExampleMod.MOD_TAB)));
 
-    public static final RegistryObject<Item> TEST_SWORD1 = ITEMS.register("test_sword1",
+    public static final RegistryObject<Item> TEST_SWORD1 = ITEMS.register("test_lightning_sword1",
             () -> new Test_Sword1(Tiers.IRON, 3, -2.4F, (new Item.Properties()).tab(ExampleMod.MOD_TAB)));
 
-    public static final RegistryObject<Item> TEST_SWORD2 = ITEMS.register("test_sword2",
+    public static final RegistryObject<Item> TEST_SWORD2 = ITEMS.register("test_lightning_sword2",
             () -> new Test_Sword2(Tiers.IRON, 3, -2.4F, (new Item.Properties()).tab(ExampleMod.MOD_TAB)));
 
 }
