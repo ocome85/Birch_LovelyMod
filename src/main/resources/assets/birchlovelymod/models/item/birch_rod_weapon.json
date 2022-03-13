@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "birchlovelymod:item/weapon/birch_rod_weapon"
+  }
+}

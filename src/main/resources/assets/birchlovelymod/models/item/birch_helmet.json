@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "birchlovelymod:item/armor/birch_helmet"
+  }
+}
+
